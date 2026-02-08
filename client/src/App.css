@@ -1,0 +1,26 @@
+
+@media screen and (max-width: 1080px) {
+  #root {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 1081px) {
+  #root {
+    width: 69%;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+}
+
+.card {
+  width: 100%;
+  padding: 0%;
+}
+
+.read-the-docs {
+  color: #888;
+}
