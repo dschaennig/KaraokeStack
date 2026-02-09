@@ -11,8 +11,6 @@ import { ContentBar } from './components/contentBar';
 
 function App() {
 
-  const skipButtonEnabled = import.meta.env.VITE_SKIP_BUTTON_ACTIVE == "true";
-
   return (
     <Container fluid>
       <Row className='d-flex justify-content-center'>

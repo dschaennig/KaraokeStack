@@ -1,5 +1,7 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import {
+  Button,
   Col,
   Row
 } from 'react-bootstrap';
@@ -10,6 +12,8 @@ import {
 } from './../util/requests.js';
 
 const Queue = () => {
+
+  const skipButtonEnabled = import.meta.env.VITE_SKIP_BUTTON_ACTIVE == "true";
 
   const [currentQueue, setCurrentQueue] = useState([]);
 
@@ -22,16 +26,16 @@ const Queue = () => {
   return <Col
     >
       {currentQueue.map((song, index) => {
-        return <Row className='d-flex justify-content-center border-bottom'>
-          <Col xs={2}>
+        return <Row className='d-flex justify-content-center border-bottom m-2 p-2'>
+          <Col xs={2} className='mb-auto mt-auto'>
             {index + 1}
           </Col>
-          <Col xs={10}>
+          <Col xs={10} className='mb-auto mt-auto'>
             {song.name}
           </Col>
         </Row>
       })}
-      <Row className='d-flex justify-content-center border-top border-bottom'>
+      <Row className='d-flex justify-content-center m-2 p-2'>
         <Col xs={1}>
           &nbsp;
         </Col>

@@ -11,7 +11,7 @@ import './songListing.css';
 import filterSongsByString from './../util/filterString.js';
 import {
   addSongToQueue,
-  fetchAvailableSongs
+  fetchAvailableSongs,
 } from "./../util/requests";
 
 const SongListing = () => {
@@ -59,7 +59,6 @@ const SongListing = () => {
                   variant='outline-success'
                   onClick={() => {
                     addSongToQueue(song.id);
-                    fetchQueue(setCurrentQueue);
                   }}
                 >
                   +

@@ -15,9 +15,30 @@ const ContentBar = () => {
 
   return <Card>
     <Card.Header as={Row} className="m-0 p-0 pt-2 pb-2">
-      <Col xs={4} className="m-0 p-0 border-end">Songs</Col>
-      <Col xs={4} className="m-0 p-0">Queue</Col>
-      <Col xs={4} className="m-0 p-0 border-start">Stream</Col>
+      <Col
+        xs={4}
+        className="m-0 p-0 border-end"
+        onClick={() => {
+          setContent("songlisting");
+        }}
+      >
+        Songs
+      </Col>
+      <Col
+        xs={4}
+        className="m-0 p-0"
+        onClick={() => {
+          setContent("queue");
+        }}
+      >
+        Queue
+      </Col>
+      <Col
+        xs={4}
+        className="m-0 p-0 border-start"
+      >
+        Stream
+      </Col>
     </Card.Header>
     <Card.Body className="m-0 p-0">
       {(content == "songlisting") && <SongListing/>}
