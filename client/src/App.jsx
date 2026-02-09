@@ -21,6 +21,8 @@ import filterSongsByString from './util/filterString.js';
 
 function App() {
 
+  const skipButtonEnabled = import.meta.env.VITE_SKIP_BUTTON_ACTIVE == "true";
+
   const [availableSongs, setAvailableSongs] = useState([]);
   const [filteredSongs, setFilteredSongs] = useState([]);
   const [filterString, setFilterSting] = useState("");
@@ -80,12 +82,13 @@ function App() {
                 </Col>
                 <Col xs={5}>
                   <Button 
+                    disabled={!skipButtonEnabled}
                     variant='outline-danger className'
                     onClick={() => {
-                      //skipButton();
+                      skipButton();
                     }}
                   >
-                    No Skip anymore :)
+                    {skipButtonEnabled ? "Skip current Song" : "Skipping not enabled"}
                   </Button>
                 </Col>
                 <Col xs={1}>
