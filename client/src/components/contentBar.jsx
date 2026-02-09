@@ -19,7 +19,7 @@ const ContentBar = () => {
       <Col xs={4} className="m-0 p-0">Queue</Col>
       <Col xs={4} className="m-0 p-0 border-start">Stream</Col>
     </Card.Header>
-    <Card.Body className="m-0 p-4">
+    <Card.Body className="m-0 p-0">
       {(content == "songlisting") && <SongListing/>}
       {(content == "queue") && <Queue/>}
     </Card.Body>
