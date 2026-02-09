@@ -16,7 +16,7 @@ const ContentBar = () => {
   return <Card>
     <Card.Header as={Row} className="m-0 p-0 pt-2 pb-2">
       <Col
-        xs={4}
+        xs={6}
         className="m-0 p-0 border-end"
         onClick={() => {
           setContent("songlisting");
@@ -26,7 +26,7 @@ const ContentBar = () => {
         Songs
       </Col>
       <Col
-        xs={4}
+        xs={6}
         className="m-0 p-0"
         onClick={() => {
           setContent("queue");
@@ -34,12 +34,6 @@ const ContentBar = () => {
         style={ content == "queue" ? {"color" : "#D18500"} : {}}
       >
         Queue
-      </Col>
-      <Col
-        xs={4}
-        className="m-0 p-0 border-start"
-      >
-        Stream
       </Col>
     </Card.Header>
     <Card.Body className="m-0 p-0">
