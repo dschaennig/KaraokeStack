@@ -6,6 +6,7 @@ import {
   Row
 } from 'react-bootstrap';
 
+import "./songListing.css";
 import {
   fetchQueue,
   skipButton
@@ -25,16 +26,18 @@ const Queue = () => {
 
   return <Col
     >
-      {currentQueue.map((song, index) => {
-        return <Row className='d-flex justify-content-center border-bottom m-2 p-2'>
-          <Col xs={2} className='mb-auto mt-auto'>
-            {index + 1}
-          </Col>
-          <Col xs={10} className='mb-auto mt-auto'>
-            {song.name}
-          </Col>
-        </Row>
-      })}
+      <div class="overflow">
+        {currentQueue.map((song, index) => {
+          return <Row className='d-flex justify-content-center border-bottom m-2 p-2'>
+            <Col xs={2} className='mb-auto mt-auto'>
+              {index + 1}
+            </Col>
+            <Col xs={10} className='mb-auto mt-auto'>
+              {song.name}
+            </Col>
+          </Row>
+        })}
+      </div>
       <Row className='d-flex justify-content-center m-2 p-2'>
         <Col xs={1}>
           &nbsp;

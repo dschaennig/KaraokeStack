@@ -21,6 +21,7 @@ const ContentBar = () => {
         onClick={() => {
           setContent("songlisting");
         }}
+        style={ content == "songlisting" ? {"color" : "#D18500"} : {}}
       >
         Songs
       </Col>
@@ -30,6 +31,7 @@ const ContentBar = () => {
         onClick={() => {
           setContent("queue");
         }}
+        style={ content == "queue" ? {"color" : "#D18500"} : {}}
       >
         Queue
       </Col>
