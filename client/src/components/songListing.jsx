@@ -32,7 +32,7 @@ const SongListing = () => {
  
   return <Col
     >
-      <Row className='mt-4'>
+      <Row className='mt-4 mb-3'>
         <Col xs={12} md={2} className='mb-auto mt-auto'>
           Search
         </Col>
@@ -46,12 +46,12 @@ const SongListing = () => {
       </Row>
       {filteredSongs.map((song) => {
         return <Row 
-            className='d-flex justify-content-center'
+            className='d-flex justify-content-center border-top p-1'
           >
-            <Col xs={10}>
+            <Col xs={10} className='mt-auto mb-auto'>
               {song.name}
             </Col>
-            <Col xs={2}>
+            <Col xs={2} className='mt-auto mb-auto'>
               <Button
                 variant='outline-success'
                 onClick={() => {
@@ -64,7 +64,7 @@ const SongListing = () => {
             </Col>
           </Row>
       })}
-      <Row className='d-flex justify-content-center mt-2 mb-2'>
+      <Row className='d-flex justify-content-center mt-1 pt-2 mb-2 border-top'>
         Press the + Button to add the song to the queue!
       </Row>
     </Col>
