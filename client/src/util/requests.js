@@ -25,6 +25,18 @@ const fetchQueue = async (setter) => {
 };
 
 
+const fetchCurrentSong = async (setter) => {
+  try {
+    const response = await api.get('/current_song');
+    setter(response.data != "" ? response.data : null);
+    return 200;
+  } catch (error) {
+    console.log("Error fetching current song:", error);
+    return 400;
+  }
+};
+
+
 const addSongToQueue = async (songId) => {
   try {
     await api.post('/add_to_queue', {'song_id' : songId});
@@ -46,4 +58,4 @@ const skipButton = async () => {
 }
 
 
-export {fetchAvailableSongs, fetchQueue, addSongToQueue, skipButton};
+export {fetchAvailableSongs, fetchCurrentSong, fetchQueue, addSongToQueue, skipButton};

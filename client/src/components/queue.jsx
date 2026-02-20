@@ -8,6 +8,7 @@ import {
 
 import "./songListing.css";
 import {
+  fetchCurrentSong,
   fetchQueue,
   skipButton
 } from './../util/requests.js';
@@ -17,27 +18,36 @@ const Queue = () => {
   const skipButtonEnabled = import.meta.env.VITE_SKIP_BUTTON_ACTIVE == "true";
 
   const [currentQueue, setCurrentQueue] = useState([]);
+  const [currentSong, setCurrentSong] = useState(null);
 
   useEffect(() => {
-    //load the queue:
+    //load the queue and currently playing song:
     fetchQueue(setCurrentQueue);
+    fetchCurrentSong(setCurrentSong);
   }, [])
 
 
   return <Col
     >
-      <div class="overflow">
-        {currentQueue.map((song, index) => {
-          return <Row className='d-flex justify-content-center border-bottom m-2 p-2'>
-            <Col xs={2} className='mb-auto mt-auto'>
-              {index + 1}
-            </Col>
-            <Col xs={10} className='mb-auto mt-auto'>
-              {song.name}
-            </Col>
-          </Row>
-        })}
-      </div>
+      <Row className='d-flex justify-content-center m-1 p-1 pb-3 mb-3 border-bottom'>
+        <h4>Currently playing:</h4>
+        {currentSong != null ? currentSong.name : "There is currently no song playing"}
+      </Row>
+      <Row  className='d-flex justify-content-center m-0 p-0'>
+        <h4>Queue:</h4>
+        <div class="overflow">
+          {currentQueue.map((song, index) => {
+            return <Row className='d-flex justify-content-center border-bottom m-0 p-0 pt-1 pb-1'>
+              <Col xs={2} className='mb-auto mt-auto'>
+                {index + 1}
+              </Col>
+              <Col xs={10} className='mb-auto mt-auto'>
+                {song.name}
+              </Col>
+            </Row>
+          })}
+        </div>
+      </Row>
       <Row className='d-flex justify-content-center m-2 p-2'>
         <Col xs={1}>
           &nbsp;
@@ -47,6 +57,7 @@ const Queue = () => {
             variant='outline-success className'
             onClick={() => {
               fetchQueue(setCurrentQueue);
+              fetchCurrentSong(setCurrentSong);
             }}
           >
             Reload queue

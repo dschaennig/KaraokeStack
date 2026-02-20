@@ -22,6 +22,7 @@ app.add_middleware(
 
 queue_path = ".\\server\\queue.txt"
 skip_path = ".\\server\\skip.txt"
+current_song_path = ".\\server\\current.txt"
 songs_path = "D:\\\\Musik\\Karaoke\\"
 memory_db = {"songs" : []}
 
@@ -63,6 +64,25 @@ def get_queue():
         for song_id in queue:
             songs_in_queue.append(list(filter(lambda x: x['id'] == song_id, memory_db['songs']))[0])
         return songs_in_queue
+    except Exception as e:
+        print(e)
+        return 400
+    
+@app.get("/current_song")
+def get_current_song():
+    try:
+        current_song_file = open(current_song_path, "r")
+        current_song_id = current_song_file.read()
+        current_song_file.close()
+        if current_song_id == "":
+            return ""
+        else:
+            try:
+                current_song_id = int(current_song_id)
+                return (list(filter(lambda x: x['id'] == current_song_id, memory_db['songs']))[0])
+            except Exception as e:
+                print(e)
+                return 400
     except Exception as e:
         print(e)
         return 400

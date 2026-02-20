@@ -5,9 +5,10 @@ import cv2
 
 queue_path = ".\\server\\queue.txt"
 skip_path = ".\\server\\skip.txt"
+current_song_path = ".\\server\\current.txt"
 songs_path = "D:\\\\Musik\\Karaoke\\"
 
-break_song_path = ".\\server\\data\\run to the hills but it never starts.mkv"
+break_song_path = ".\\random_stuff\\banner\\banner.mp4"
 
 songs = \
     glob(songs_path + "*.webm") +\
@@ -41,6 +42,9 @@ def get_queue():
 def get_next_song():
     queue = get_queue()
     if len(queue) == 0:
+        current_song_file = open(current_song_path, "w")
+        current_song_file.write("")
+        current_song_file.close()
         return 0
     next_song = queue.pop(0)
     try:
@@ -48,8 +52,11 @@ def get_next_song():
         for id in queue:
             queue_file.write(str(id) + '\n')
         queue_file.close()
+        current_song_file = open(current_song_path, "w")
+        current_song_file.write(str(next_song))
+        current_song_file.close()
     except Exception as e:
-        print("Trouble writing queue file:", e)
+        print("Trouble writing queue or current song file:", e)
         return 1
     
     return [x for x in loaded_songs if x['id'] == next_song][0]
