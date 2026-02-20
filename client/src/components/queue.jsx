@@ -33,6 +33,33 @@ const Queue = () => {
         <h4>Currently playing:</h4>
         {currentSong != null ? currentSong.name : "There is currently no song playing"}
       </Row>
+      <Row className='d-flex justify-content-center m-2 p-2'>
+        <Col xs={1}>
+          &nbsp;
+        </Col>
+        <Col xs={5}>
+          <Button 
+            variant='outline-success className'
+            onClick={() => {
+              fetchQueue(setCurrentQueue);
+              fetchCurrentSong(setCurrentSong);
+            }}
+          >
+            Reload
+          </Button>
+        </Col>
+        <Col xs={5}>
+          <Button 
+            disabled={!skipButtonEnabled}
+            variant='outline-danger className'
+            onClick={() => {
+              skipButton();
+            }}
+          >
+            {skipButtonEnabled ? "Skip Song" : "Disabled"}
+          </Button>
+        </Col>        
+      </Row>
       <Row  className='d-flex justify-content-center m-0 p-0'>
         <h4>Queue:</h4>
         <div class="overflow">
@@ -47,33 +74,6 @@ const Queue = () => {
             </Row>
           })}
         </div>
-      </Row>
-      <Row className='d-flex justify-content-center m-2 p-2'>
-        <Col xs={1}>
-          &nbsp;
-        </Col>
-        <Col xs={5}>
-          <Button 
-            variant='outline-success className'
-            onClick={() => {
-              fetchQueue(setCurrentQueue);
-              fetchCurrentSong(setCurrentSong);
-            }}
-          >
-            Reload queue
-          </Button>
-        </Col>
-        <Col xs={5}>
-          <Button 
-            disabled={!skipButtonEnabled}
-            variant='outline-danger className'
-            onClick={() => {
-              skipButton();
-            }}
-          >
-            {skipButtonEnabled ? "Skip current Song" : "Skipping not enabled"}
-          </Button>
-        </Col>        
       </Row>
     </Col>
 }
