@@ -14,7 +14,7 @@ Before you try to run the app, make sure to have all of the following python lib
 - [FastAPI](https://pypi.org/project/fastapi/)
 - [pydantic](https://pypi.org/project/pydantic/)
 - [python-vlc](https://pypi.org/project/python-vlc/)
- - [uvicorn](https://pypi.org/project/uvicorn/)
+- [uvicorn](https://pypi.org/project/uvicorn/)
 
 and make sure to run
 
@@ -40,3 +40,6 @@ And finally run the player:
 	python ./server/player.py
 
 Have a fun time with your friends (if you have any)!
+
+# Download script
+There is a download script included. This script does local filtering of already downloaded songs (as long as you leave the video id in the file names) instead of apparently online filtering with yt-dlp's playlist download, which resolves getting limitted by yt-dlp for starting the download process of already downloaded songs.
