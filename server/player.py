@@ -1,7 +1,6 @@
 import vlc
 from glob import glob
 import time
-import cv2
 
 queue_path = ".\\server\\queue.txt"
 skip_path = ".\\server\\skip.txt"
@@ -69,17 +68,15 @@ def main():
         else:
             next_path = next['path']
 
-        video = cv2.VideoCapture(next_path)
-        frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
-        fps = video.get(cv2.CAP_PROP_FPS)
-
-        seconds = round(frames / fps)
         instance = vlc.Instance(['--video-on-top'])
         player = instance.media_player_new()
         player.toggle_fullscreen()
 
 
         media = instance.media_new(next_path)
+        media.parse()
+        seconds = media.get_duration() / 1000;
+
         player.set_media(media)
         player.play()
         print("playing video for " + str(seconds) + " seconds")
