@@ -8,36 +8,22 @@ config = ConfigParser()
 config.read(os.path.dirname(__file__) + "/config.ini")
 cfg = config["DEFAULT"]
 
-songs = \
-    glob(cfg["songs_path"] + "*.webm") +\
-    glob(cfg["songs_path"] + "*.mp4") +\
-    glob(cfg["songs_path"] + "*.mkv") +\
-    glob(cfg["songs_path"] + "*.wmv")
+use_online_mode = cfg["online_mode"] == "1"
 
-loaded_songs = []
-
-for indx, song in enumerate(songs):
-    obj = {
-        "path" : song,
-        "name" : (song.split('\\')[-1]).rsplit('.', 1)[0].rsplit('[', 1)[0],
-        "id" : indx
-    }
-
-    loaded_songs.append(obj)
-    del obj
 
 def get_queue():
     try:
         queue_file = open(cfg["queue_path"], "r")
         queue_raw = queue_file.read()
         queue_file.close()
-        queue = [int(x) for x in queue_raw.split('\n') if x != '']
-        return queue
+        if not use_online_mode:
+            queue = [int(x) for x in queue_raw.split('\n') if x != '']
+            return queue
     except Exception as e:
         print("Trouble reading queue file:", e)
         return 400
 
-def get_next_song():
+def get_next_song(loaded_songs):
     queue = get_queue()
     if len(queue) == 0:
         current_song_file = open(cfg["current_song_path"], "w")
@@ -47,8 +33,8 @@ def get_next_song():
     next_song = queue.pop(0)
     try:
         queue_file = open(cfg["queue_path"], "w")
-        for id in queue:
-            queue_file.write(str(id) + '\n')
+        for item in queue:
+            queue_file.write(str(item) + '\n')
         queue_file.close()
         current_song_file = open(cfg["current_song_path"], "w")
         current_song_file.write(str(next_song))
@@ -57,11 +43,32 @@ def get_next_song():
         print("Trouble writing queue or current song file:", e)
         return 1
 
-    return [x for x in loaded_songs if x['id'] == next_song][0]
+    if not use_online_mode:
+        return [x for x in loaded_songs if x['id'] == next_song][0]
 
-def main():
+
+def run_offline_player():
+
+    songs = \
+        glob(cfg["songs_path"] + "*.webm") +\
+        glob(cfg["songs_path"] + "*.mp4") +\
+        glob(cfg["songs_path"] + "*.mkv") +\
+        glob(cfg["songs_path"] + "*.wmv")
+    
+    loaded_songs = []
+
+    for indx, song in enumerate(songs):
+        obj = {
+            "path" : song,
+            "name" : (song.split('\\')[-1]).rsplit('.', 1)[0].rsplit('[', 1)[0],
+            "id" : indx
+        }
+
+        loaded_songs.append(obj)
+        del obj
+
     while True:
-        next = get_next_song()
+        next = get_next_song(loaded_songs)
         if next == 0:
             next_path = cfg["break_song_path"]
         else:
@@ -103,4 +110,5 @@ def main():
         instance.vlm_stop_media("1")
         media.release()
 
-main()
+if not use_online_mode:
+    run_offline_player()

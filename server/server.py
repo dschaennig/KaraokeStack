@@ -25,25 +25,30 @@ config = ConfigParser()
 config.read(os.path.dirname(__file__) + "/config.ini")
 cfg = config["DEFAULT"]
 
+use_online_mode = cfg["online_mode"] == "1"
+
 memory_db = {"songs" : []}
 
-songs = \
-    glob(cfg["songs_path"] + "*.webm") +\
-    glob(cfg["songs_path"] + "*.mp4") +\
-    glob(cfg["songs_path"] + "*.mkv") +\
-    glob(cfg["songs_path"] + "*.wmv")
+if not use_online_mode:
+    songs = \
+        glob(cfg["songs_path"] + "*.webm") +\
+        glob(cfg["songs_path"] + "*.mp4") +\
+        glob(cfg["songs_path"] + "*.mkv") +\
+        glob(cfg["songs_path"] + "*.wmv")
 
-for indx, song in enumerate(songs):
-    obj = {
-        "path" : song,
-        "name" : (song.split('\\')[-1]).rsplit('.', 1)[0].rsplit('[', 1)[0],
-        "id" : indx
-    }
+    if len(songs) < 1:
+        raise Exception("No songs found, check if your songs_path in config.ini is configured correctly.")
 
-    memory_db["songs"].append(obj)
-    del obj
+    for indx, song in enumerate(songs):
+        obj = {
+            "path" : song,
+            "name" : song.replace(cfg["songs_path"], "").rsplit('.', 1)[0].rsplit('[', 1)[0],
+            "id" : indx
+        }
+        memory_db["songs"].append(obj)
+        del obj
 
-print("Loaded " + str(len(memory_db["songs"])) + " songs.")
+    print("Loaded " + str(len(memory_db["songs"])) + " songs.")
 
 
 @app.get("/available_songs")
@@ -112,4 +117,4 @@ def skip():
         return 400
 
 
-uvicorn.run(app, host="0.0.0.0", port=cfg["port"])
+uvicorn.run(app, host="0.0.0.0", port=int(cfg["port"]))
