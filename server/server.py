@@ -116,5 +116,12 @@ def skip():
         print("Error writing skip file 1:", e)
         return 400
 
+@app.get("/using_online_mode")
+def using_online_mode():
+    try:
+        return use_online_mode
+    except Exception as e:
+        print(e)
+        return 400
 
 uvicorn.run(app, host="0.0.0.0", port=int(cfg["port"]))

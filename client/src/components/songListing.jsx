@@ -12,21 +12,32 @@ import filterSongsByString from './../util/filterString.js';
 import {
   addSongToQueue,
   fetchAvailableSongs,
+  usingOnlineMode
 } from "./../util/requests";
 
 const SongListing = () => {
   
+  const [onlineMode, setOnlineMode] = useState(true);
   const [availableSongs, setAvailableSongs] = useState([]);
   const [filteredSongs, setFilteredSongs] = useState([]);
   const [filterString, setFilterSting] = useState("");
 
   useEffect(() => {
-    //load all available Songs:
-    fetchAvailableSongs(setAvailableSongs, setFilteredSongs);
+    usingOnlineMode(setOnlineMode);
+    console.log("set online mode to:", onlineMode)
   }, [])
 
   useEffect(() => {
+    //load all available Songs:
+    if (!onlineMode) {
+      fetchAvailableSongs(setAvailableSongs, setFilteredSongs);
+    }
+  }, [onlineMode])
+
+  useEffect(() => {
+    if (!onlineMode) {
     setFilteredSongs(filterSongsByString(filterString, availableSongs));
+    }
   }, [filterString])
  
   return <Col
@@ -36,11 +47,17 @@ const SongListing = () => {
           Search
         </Col>
         <Col xs={12} md={9} className='mb-auto mt-auto'>
-          <Form.Control
-            type='text'
-            placeholder="Search for songs :)"
-            onChange={(e) => setFilterSting(e.target.value)}
-          />
+          { onlineMode ? 
+            <Row>
+              Search is disabled because online mode is active, just insert a YouTube Video URL below! :)
+            </Row>
+          : 
+            <Form.Control
+              type='text'
+              placeholder="Search for songs :)"
+              onChange={(e) => setFilterSting(e.target.value)}
+            />
+          }
         </Col>
         <Col xs={0} md={1}>
           &nbsp;

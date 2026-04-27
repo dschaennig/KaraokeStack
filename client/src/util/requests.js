@@ -57,5 +57,15 @@ const skipButton = async () => {
   }
 }
 
+const usingOnlineMode = async (setter) => {
+  try {
+    const response = await api.get('/using_online_mode');
+    setter(response.data);
+    return 200
+  } catch (error) {
+    console.log("Error requesting online mode usage:", error);
+    return 400
+  }
+}
 
-export {fetchAvailableSongs, fetchCurrentSong, fetchQueue, addSongToQueue, skipButton};
+export {fetchAvailableSongs, fetchCurrentSong, fetchQueue, addSongToQueue, skipButton, usingOnlineMode};
