@@ -36,7 +36,7 @@ There are three parts to this app:
 To use the app, you need to start those three parts separately in different shells (for now):
 Run frontend:
 
-	cd frontend
+	cd client
 	npm run dev
 Run backend:
 
