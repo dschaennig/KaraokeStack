@@ -22,6 +22,13 @@ and make sure to run
 	npm i
 
 # Using the app
+## Configuring
+Edit the [server/config.ini](server/config.ini) to direct the server to the relevant files.
+The most interesting value is `songs_path`, which is the folder that contains the karaoke video files.
+Additionally you can choose a video that plays, when no song is currently queued with `break_song_path`.
+The other values can be safely left alone.
+
+## Running
 There are three parts to this app:
 - frontend
 - backend (server)
