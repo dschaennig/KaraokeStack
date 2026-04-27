@@ -10,7 +10,6 @@ This app is currently based on playing downloaded videos from your device. This 
 
 # Install dependencies
 Before you try to run the app, make sure to have all of the following python libraries installed:
-- [cv2](https://pypi.org/project/opencv-python/)
 - [FastAPI](https://pypi.org/project/fastapi/)
 - [pydantic](https://pypi.org/project/pydantic/)
 - [python-vlc](https://pypi.org/project/python-vlc/)
