@@ -96,6 +96,7 @@ const SongListing = () => {
                   addSongToQueue(getCleanURL(enteredURL));
                   setEnteredURL("");
                   document.getElementById('urlField').value="";
+                  setValidURL(false);
                 }}
               >
                 Submit

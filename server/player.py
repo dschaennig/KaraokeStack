@@ -3,15 +3,18 @@ from glob import glob
 import time
 from configparser import ConfigParser
 import os
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
+import webbrowser
 
 config = ConfigParser()
 config.read(os.path.dirname(__file__) + "/config.ini")
 cfg = config["DEFAULT"]
 
 use_online_mode = cfg["online_mode"] == "1"
+adblock_extension_path = "/home/dschaennig/Downloads/adblock_for_youtube-0.5.4.xpi"
+firefox_profile_path = "/home/dschaennig/snap/firefox/common/.mozilla/firefox/backup_pljiy4nb.default"
+
+reject_cookies_path = \
+    "/html/body/ytd-app/ytd-consent-bump-v2-lightbox/tp-yt-paper-dialog/div[4]/div[2]/div[6]/div[1]/ytd-button-renderer[1]/yt-button-shape/button"
 
 
 def get_queue():
@@ -22,6 +25,8 @@ def get_queue():
         if not use_online_mode:
             queue = [int(x) for x in queue_raw.split('\n') if x != '']
             return queue
+        else:
+            return list(filter(lambda x: x!= '', queue_raw.split('\n')))
     except Exception as e:
         print("Trouble reading queue file:", e)
         return 400
@@ -48,6 +53,8 @@ def get_next_song(loaded_songs):
 
     if not use_online_mode:
         return [x for x in loaded_songs if x['id'] == next_song][0]
+    else:
+        return next_song
 
 
 def run_offline_player():
@@ -124,9 +131,13 @@ def play_vlc(loaded_songs):
 
 
 def run_online_player():
-    driver = webdriver.Firefox()
-    wait = WebDriverWait(driver, 15)
-    
+
+    while True:
+        next = get_next_song([])
+        if next != 0:
+            
+            time.sleep(5)
+            time.sleep(100)
 
 
 
