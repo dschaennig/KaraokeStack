@@ -22,12 +22,18 @@ const SongListing = () => {
   const [availableSongs, setAvailableSongs] = useState([]);
   const [filteredSongs, setFilteredSongs] = useState([]);
   const [filterString, setFilterSting] = useState("");
-  const [validURL, setValidURL] = useState(false)
+  const [validURL, setValidURL] = useState(false);
+  const [enteredURL, setEnteredURL] = useState("");
 
   const youtubeUrlRe = new RegExp("https://youtu.be/[a-zA-Z0-9_-]{11}")
   function parseURL(url) {
     setValidURL(youtubeUrlRe.test(url))
   };
+
+  function getCleanURL(url) {
+    return url.match(youtubeUrlRe)[0]
+  }
+
 
   useEffect(() => {
     usingOnlineMode(setOnlineMode);
@@ -74,20 +80,30 @@ const SongListing = () => {
           <Col xs={8} md={10}>
             <Form.Control
               type='text'
+              id="urlField"
               placeholder='Insert YouTube URL to Karaoke Song! :)'
-              onChange={(e) => parseURL(e.target.value)}
+              onChange={(e) => {
+                parseURL(e.target.value);
+                setEnteredURL(e.target.value);
+              }}
             />
           </Col>
           <Col xs={4} md={2}>
             { validURL ?
-              <Button variant="outline-success">
+              <Button
+                variant="outline-success"
+                onClick={() => {
+                  addSongToQueue(getCleanURL(enteredURL));
+                  setEnteredURL("");
+                  document.getElementById('urlField').value="";
+                }}
+              >
                 Submit
               </Button>
             :
               <Button variant="outline-danger">
                 Invalid URL
               </Button>
-
             }
           </Col>
         </Row>

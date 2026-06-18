@@ -7,7 +7,7 @@ from configparser import ConfigParser
 import os
 
 class SongId(BaseModel):
-    song_id : int
+    song_id : str
 
 app = FastAPI()
 
@@ -65,11 +65,14 @@ def get_queue():
         queue_file = open(cfg["queue_path"], "r")
         queue_raw = queue_file.read()
         queue_file.close()
-        queue = [int(x) for x in queue_raw.split('\n') if x != '']
-        songs_in_queue = []
-        for song_id in queue:
-            songs_in_queue.append(list(filter(lambda x: x['id'] == song_id, memory_db['songs']))[0])
-        return songs_in_queue
+        if not use_online_mode:
+            queue = [int(x) for x in queue_raw.split('\n') if x != '']
+            songs_in_queue = []
+            for song_id in queue:
+                songs_in_queue.append(list(filter(lambda x: x['id'] == song_id, memory_db['songs']))[0])
+            return songs_in_queue
+        else:
+            pass # TODO ONLINE
     except Exception as e:
         print(e)
         return 400
@@ -83,12 +86,15 @@ def get_current_song():
         if current_song_id == "":
             return ""
         else:
-            try:
-                current_song_id = int(current_song_id)
-                return (list(filter(lambda x: x['id'] == current_song_id, memory_db['songs']))[0])
-            except Exception as e:
-                print(e)
-                return 400
+            if not use_online_mode:
+                try:
+                    current_song_id = int(current_song_id)
+                    return (list(filter(lambda x: x['id'] == current_song_id, memory_db['songs']))[0])
+                except Exception as e:
+                    print(e)
+                    return 400
+            else:
+                pass # TODO ONLINE
     except Exception as e:
         print(e)
         return 400
@@ -98,7 +104,10 @@ def add_to_queue(song: SongId):
     song_id = song.song_id
     try:
         queue_file = open(cfg["queue_path"], "a")
-        queue_file.write(str([x["id"] for x in memory_db["songs"] if x["id"] == song_id][-1]) + "\n")
+        if not use_online_mode:
+            queue_file.write(str([x["id"] for x in memory_db["songs"] if x["id"] == int(song_id)][-1]) + "\n")
+        else:
+            queue_file.write(song_id + "\n")
         queue_file.close()
         return 200
     except Exception as e:

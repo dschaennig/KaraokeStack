@@ -39,7 +39,7 @@ const fetchCurrentSong = async (setter) => {
 
 const addSongToQueue = async (songId) => {
   try {
-    await api.post('/add_to_queue', {'song_id' : songId});
+    await api.post('/add_to_queue', {'song_id' : songId.toString()});
     return 200;
   } catch (error) {
     console.log("Error adding song:", error);
