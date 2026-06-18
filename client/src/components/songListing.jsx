@@ -131,7 +131,7 @@ const SongListing = () => {
         </div>
       }
       <Row className='d-flex justify-content-center border-top p-2 m-1'>
-        Press the + Button to add the song to the queue!
+        {!onlineMode ? "Press the + Button to add the song to the queue!" : "Copy and paste a Youtube URL via the Share Button in YouTube!"}
       </Row>
     </Col>
 }

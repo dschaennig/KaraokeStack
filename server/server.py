@@ -72,7 +72,8 @@ def get_queue():
                 songs_in_queue.append(list(filter(lambda x: x['id'] == song_id, memory_db['songs']))[0])
             return songs_in_queue
         else:
-            pass # TODO ONLINE
+            queue = list(filter(lambda x: x!= '', queue_raw.split('\n')))
+            return queue
     except Exception as e:
         print(e)
         return 400
@@ -94,7 +95,7 @@ def get_current_song():
                     print(e)
                     return 400
             else:
-                pass # TODO ONLINE
+                return current_song_id
     except Exception as e:
         print(e)
         return 400
