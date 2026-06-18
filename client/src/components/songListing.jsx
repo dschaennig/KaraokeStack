@@ -16,15 +16,21 @@ import {
 } from "./../util/requests";
 
 const SongListing = () => {
+
   
   const [onlineMode, setOnlineMode] = useState(true);
   const [availableSongs, setAvailableSongs] = useState([]);
   const [filteredSongs, setFilteredSongs] = useState([]);
   const [filterString, setFilterSting] = useState("");
+  const [validURL, setValidURL] = useState(false)
+
+  const youtubeUrlRe = new RegExp("https://youtu.be/[a-zA-Z0-9_-]{11}")
+  function parseURL(url) {
+    setValidURL(youtubeUrlRe.test(url))
+  };
 
   useEffect(() => {
     usingOnlineMode(setOnlineMode);
-    console.log("set online mode to:", onlineMode)
   }, [])
 
   useEffect(() => {
@@ -63,27 +69,51 @@ const SongListing = () => {
           &nbsp;
         </Col>
       </Row>
-      <div class="overflow">
-        {filteredSongs.map((song) => {
-          return <Row 
-              className='d-flex justify-content-center border-top p-1'
-            >
-              <Col xs={10} className='mt-auto mb-auto'>
-                {song.name}
-              </Col>
-              <Col xs={2} className='mt-auto mb-auto'>
-                <Button
-                  variant='outline-success'
-                  onClick={() => {
-                    addSongToQueue(song.id);
-                  }}
-                >
-                  +
-                </Button>
-              </Col>
-            </Row>
-        })}
-      </div>
+      { onlineMode ?
+        <Row className='ps-4 pe-4 m-4'>
+          <Col xs={8} md={10}>
+            <Form.Control
+              type='text'
+              placeholder='Insert YouTube URL to Karaoke Song! :)'
+              onChange={(e) => parseURL(e.target.value)}
+            />
+          </Col>
+          <Col xs={4} md={2}>
+            { validURL ?
+              <Button variant="outline-success">
+                Submit
+              </Button>
+            :
+              <Button variant="outline-danger">
+                Invalid URL
+              </Button>
+
+            }
+          </Col>
+        </Row>
+      :
+        <div class="overflow">
+          {filteredSongs.map((song) => {
+            return <Row 
+                className='d-flex justify-content-center border-top p-1'
+              >
+                <Col xs={10} className='mt-auto mb-auto'>
+                  {song.name}
+                </Col>
+                <Col xs={2} className='mt-auto mb-auto'>
+                  <Button
+                    variant='outline-success'
+                    onClick={() => {
+                      addSongToQueue(song.id);
+                    }}
+                  >
+                    +
+                  </Button>
+                </Col>
+              </Row>
+          })}
+        </div>
+      }
       <Row className='d-flex justify-content-center border-top p-2 m-1'>
         Press the + Button to add the song to the queue!
       </Row>

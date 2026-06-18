@@ -3,6 +3,9 @@ from glob import glob
 import time
 from configparser import ConfigParser
 import os
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 
 config = ConfigParser()
 config.read(os.path.dirname(__file__) + "/config.ini")
@@ -119,5 +122,15 @@ def play_vlc(loaded_songs):
         if next != 0:
             media.release()
 
-if not use_online_mode:
+
+def run_online_player():
+    driver = webdriver.Firefox()
+    wait = WebDriverWait(driver, 15)
+    
+
+
+
+if use_online_mode:
+    run_online_player()
+else:
     run_offline_player()
