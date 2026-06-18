@@ -67,21 +67,29 @@ def run_offline_player():
         loaded_songs.append(obj)
         del obj
 
+    play_vlc(loaded_songs)
+
+
+
+def play_vlc(loaded_songs):
+    instance = vlc.Instance(['--video-on-top'])
+    player = instance.media_player_new()
+    player.toggle_fullscreen()
+
+    banner = instance.media_new(cfg["banner_path"], '--image-duration 5')
+    banner.parse()
+    banner_duration = banner.get_duration() / 1000;
+
     while True:
+        media = banner
+        seconds = banner_duration
+
         next = get_next_song(loaded_songs)
-        if next == 0:
-            next_path = cfg["break_song_path"]
-        else:
-            next_path = next['path']
-
-        instance = vlc.Instance(['--video-on-top'])
-        player = instance.media_player_new()
-        player.toggle_fullscreen()
-
-
-        media = instance.media_new(next_path)
-        media.parse()
-        seconds = media.get_duration() / 1000;
+        if next != 0:
+            media = instance.media_new(next['path'])
+            media.add_option('avcodec-hw=none')
+            media.parse()
+            seconds = media.get_duration() / 1000;
 
         player.set_media(media)
         player.play()
@@ -108,7 +116,8 @@ def run_offline_player():
         print("finished song or skip, closing player")
         player.stop()
         instance.vlm_stop_media("1")
-        media.release()
+        if next != 0:
+            media.release()
 
 if not use_online_mode:
     run_offline_player()
