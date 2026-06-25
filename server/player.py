@@ -147,14 +147,14 @@ def play_vlc(loaded_songs=[]):
             instance.vlm_stop_media("1")
             if next != 0:
                 media.release()
-            if use_online_mode and next != 0:
+            if use_online_mode and next != 0 and next not in list(map(lambda x: match_file_from_id(x), get_queue())):
                 try:
                     os.remove(next)
                 except Exception as e:
                     print("Failed to remove", next, "\n", e)
                     exit()
     except:
-        if use_online_mode and next != 0:
+        if use_online_mode and next != 0 and next not in list(map(lambda x: match_file_from_id(x), get_queue())):
             try:
                 os.remove(next)
             except Exception as e:

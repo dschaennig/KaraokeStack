@@ -74,7 +74,15 @@ def get_queue():
                 songs_in_queue.append(list(filter(lambda x: x['id'] == song_id, memory_db['songs']))[0])
             return songs_in_queue
         else:
-            queue = list(filter(lambda x: x!= '', queue_raw.split('\n')))
+            temp_video_files = glob(temp_videos + "*.*")
+            print(temp_video_files)
+            queue = list(map(
+                lambda id: list(filter(
+                    lambda y: id in y,
+                    temp_video_files
+                ))[0].split(id, 1)[-1].rsplit(".", 1)[0],
+                [x for x in queue_raw.split('\n') if x != '']
+            ))
             return queue
     except Exception as e:
         print(e)
