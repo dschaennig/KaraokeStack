@@ -9,12 +9,6 @@ config.read(os.path.dirname(__file__) + "/config.ini")
 cfg = config["DEFAULT"]
 
 use_online_mode = cfg["online_mode"] == "1"
-adblock_extension_path = "/home/dschaennig/Downloads/adblock_for_youtube-0.5.4.xpi"
-firefox_profile_path = "/home/dschaennig/snap/firefox/common/.mozilla/firefox/backup_pljiy4nb.default"
-
-reject_cookies_path = \
-    "/html/body/ytd-app/ytd-consent-bump-v2-lightbox/tp-yt-paper-dialog/div[4]/div[2]/div[6]/div[1]/ytd-button-renderer[1]/yt-button-shape/button"
-
 
 def get_queue():
     try:
