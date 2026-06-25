@@ -3,7 +3,6 @@ from glob import glob
 import time
 from configparser import ConfigParser
 import os
-import webbrowser
 
 config = ConfigParser()
 config.read(os.path.dirname(__file__) + "/config.ini")

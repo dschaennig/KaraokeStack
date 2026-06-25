@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from glob import glob
 from configparser import ConfigParser
 import os
+import subprocess
 
 class SongId(BaseModel):
     song_id : str
@@ -26,6 +27,7 @@ config.read(os.path.dirname(__file__) + "/config.ini")
 cfg = config["DEFAULT"]
 
 use_online_mode = cfg["online_mode"] == "1"
+temp_videos = cfg["temp_videos_path"]
 
 memory_db = {"songs" : []}
 
@@ -108,7 +110,17 @@ def add_to_queue(song: SongId):
         if not use_online_mode:
             queue_file.write(str([x["id"] for x in memory_db["songs"] if x["id"] == int(song_id)][-1]) + "\n")
         else:
-            queue_file.write(song_id + "\n")
+            queue_file.write(song_id.rsplit('/', 1)[-1] + "\n")
+            if not os.path.isdir(temp_videos):
+                os.mkdir(temp_videos)
+            subprocess.Popen([
+                "yt-dlp",
+                "--remote-components", "ejs:github", 
+                song_id,
+                "-f", "bv*[height<=720]+ba/b[height<=720]",
+                "-o", temp_videos + "%(id)s %(title)s.%(ext)s"
+            ])
+            
         queue_file.close()
         return 200
     except Exception as e:

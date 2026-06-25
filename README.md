@@ -14,6 +14,7 @@ Before you try to run the app, make sure to have all of the following python lib
 - [pydantic](https://pypi.org/project/pydantic/)
 - [python-vlc](https://pypi.org/project/python-vlc/)
 - [uvicorn](https://pypi.org/project/uvicorn/)
+- [deno](https://docs.deno.com/runtime/getting_started/installation/)
 
 and make sure to run
 
