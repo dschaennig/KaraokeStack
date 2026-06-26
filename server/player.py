@@ -27,6 +27,8 @@ def get_queue():
     
 def match_file_from_id(id):
     video = glob(temp_videos + id + " *.*")
+    if len(video) < 1:
+        return 0
     for v in video:
         if v.endswith(".part"):
             print("returning 0 because Song is still loading...")
@@ -34,7 +36,7 @@ def match_file_from_id(id):
     if len(video) == 1:
         return video[0]
     else:
-        print("Found too many or too less videos for id: " + id + ": ", len(video), "\n", "\n".join(video))
+        print("Found too many videos for id: " + id + ": ", len(video), "\n", "\n".join(video))
         exit()
 
 def get_next_song(loaded_songs):
