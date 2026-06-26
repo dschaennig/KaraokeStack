@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import {
+  Accordion,
   Button,
   Col,
   Row
@@ -10,19 +11,26 @@ import "./songListing.css";
 import {
   fetchCurrentSong,
   fetchQueue,
-  skipButton
+  skipButton,
+  usingOnlineMode
 } from './../util/requests.js';
 
 const Queue = () => {
 
   const skipButtonEnabled = import.meta.env.VITE_SKIP_BUTTON_ACTIVE == "true";
 
+  const [onlineMode, setOnlineMode] = useState(true);
   const [currentQueue, setCurrentQueue] = useState([]);
   const [currentSong, setCurrentSong] = useState(null);
 
   useEffect(() => {
+    usingOnlineMode(setOnlineMode);
+  }, [])
+
+  useEffect(() => {
     //load the queue and currently playing song:
     fetchQueue(setCurrentQueue);
+    console.log(currentQueue)
     fetchCurrentSong(setCurrentSong);
   }, [])
 
@@ -31,7 +39,10 @@ const Queue = () => {
     >
       <Row className='d-flex justify-content-center m-1 p-1 pb-3 mb-3 border-bottom'>
         <h4>Currently playing:</h4>
-        {currentSong != null ? currentSong.name : "There is currently no song playing"}
+        {currentSong != null ? (onlineMode ? currentSong : currentSong.name)
+        :
+          "There is currently no song playing"
+        }
       </Row>
       <Row className='d-flex justify-content-center m-2 p-2'>
         <Col xs={1}>
@@ -64,15 +75,16 @@ const Queue = () => {
         <h4>Queue:</h4>
         <div class="overflow">
           {currentQueue.map((song, index) => {
-            return <Row className='d-flex justify-content-center border-bottom m-0 p-0 pt-1 pb-1'>
-              <Col xs={2} className='mb-auto mt-auto'>
-                {index + 1}
-              </Col>
-              <Col xs={10} className='mb-auto mt-auto'>
-                {song.name}
-              </Col>
-            </Row>
-          })}
+              return <Row className='d-flex justify-content-center border-bottom m-0 p-0 pt-1 pb-1'>
+                <Col xs={2} className='mb-auto mt-auto'>
+                  {index + 1}
+                </Col>
+                <Col xs={10} className='mb-auto mt-auto'>
+                  {onlineMode ? song : song.name}
+                </Col>
+              </Row>
+            })
+          }
         </div>
       </Row>
     </Col>
