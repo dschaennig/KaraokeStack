@@ -39,7 +39,7 @@ const Queue = () => {
     >
       <Row className='d-flex justify-content-center m-1 p-1 pb-3 mb-3 border-bottom'>
         <h4>Currently playing:</h4>
-        {currentSong != null ? (onlineMode ? currentSong : currentSong.name)
+        {currentSong != null ? (currentSong)
         :
           "There is currently no song playing"
         }
@@ -49,7 +49,7 @@ const Queue = () => {
           &nbsp;
         </Col>
         <Col xs={5}>
-          <Button 
+          <Button
             variant='outline-success className'
             onClick={() => {
               fetchQueue(setCurrentQueue);
@@ -60,7 +60,7 @@ const Queue = () => {
           </Button>
         </Col>
         <Col xs={5}>
-          <Button 
+          <Button
             disabled={!skipButtonEnabled}
             variant='outline-danger className'
             onClick={() => {
@@ -69,7 +69,7 @@ const Queue = () => {
           >
             {skipButtonEnabled ? "Skip Song" : "Disabled"}
           </Button>
-        </Col>        
+        </Col>
       </Row>
       <Row  className='d-flex justify-content-center m-0 p-0'>
         <h4>Queue:</h4>
@@ -80,7 +80,7 @@ const Queue = () => {
                   {index + 1}
                 </Col>
                 <Col xs={10} className='mb-auto mt-auto'>
-                  {onlineMode ? song : song.name}
+                  {song}
                 </Col>
               </Row>
             })
