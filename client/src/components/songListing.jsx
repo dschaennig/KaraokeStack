@@ -17,7 +17,7 @@ import {
 
 const SongListing = () => {
 
-  
+
   const [onlineMode, setOnlineMode] = useState(true);
   const [availableSongs, setAvailableSongs] = useState([]);
   const [filteredSongs, setFilteredSongs] = useState([]);
@@ -51,7 +51,7 @@ const SongListing = () => {
     setFilteredSongs(filterSongsByString(filterString, availableSongs));
     }
   }, [filterString])
- 
+
   return <Col
     >
       <Row className='mt-3 mb-3'>
@@ -59,11 +59,11 @@ const SongListing = () => {
           Search
         </Col>
         <Col xs={12} md={9} className='mb-auto mt-auto'>
-          { onlineMode ? 
+          { onlineMode ?
             <Row>
               Search is disabled because online mode is active, just insert a YouTube Video URL below! :)
             </Row>
-          : 
+          :
             <Form.Control
               type='text'
               placeholder="Search for songs :)"
@@ -111,17 +111,17 @@ const SongListing = () => {
       :
         <div class="overflow">
           {filteredSongs.map((song) => {
-            return <Row 
+            return <Row
                 className='d-flex justify-content-center border-top p-1'
               >
                 <Col xs={10} className='mt-auto mb-auto'>
-                  {song.name}
+                  {song}
                 </Col>
                 <Col xs={2} className='mt-auto mb-auto'>
                   <Button
                     variant='outline-success'
                     onClick={() => {
-                      addSongToQueue(song.id);
+                      addSongToQueue(song);
                     }}
                   >
                     +
